@@ -3,7 +3,7 @@ name = "hexlet-code"
 version = "0.1.0"
 description = "Page Analyzer - this is a full-fledged application based on the Flask framework. It works out the basic principles of building modern websites based on the MVC architecture: working with routing, query handlers and a template engine, interacting with a database."
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = [
     "flask>=3.1.0",
     "gunicorn>=23.0.0",
