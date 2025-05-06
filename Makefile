@@ -2,7 +2,7 @@ install:
 	uv sync
 
 dev:
-	uv run flask --debug --app page_analyzer/app run
+	uv run flask --debug --app page_analyzer:app run
 
 PORT ?= 8000
 start:
@@ -13,3 +13,9 @@ lint:
 
 lint-fix:
 	uv run ruff check --fix
+# Команды для PAAS-сервиса render.com
+build:
+	./build.sh
+
+render-start:
+	gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
