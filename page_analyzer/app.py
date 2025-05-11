@@ -4,7 +4,7 @@ import psycopg
 
 from dotenv import load_dotenv
 
-from flask import Flask, render_template, request, flash, redirect, get_flashed_messages, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for
 
 from page_analyzer.repository import UrlRepository
 from page_analyzer.validator import validate
