@@ -1,4 +1,19 @@
+import psycopg
+from flask import g
 from psycopg.rows import dict_row
+
+
+def get_db(db_url):
+    if 'db' not in g:
+        g.db = psycopg.connect(db_url)
+        g.db.autocommit = True
+    return g.db
+
+
+def close_db(exception=None):
+    db = g.pop('db', None)
+    if db is not None:
+        db.close()
 
 
 class UrlRepository:

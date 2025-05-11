@@ -1,23 +1,19 @@
 import os
 
-import psycopg
-
 from dotenv import load_dotenv
 
 from flask import Flask, render_template, request, flash, redirect, url_for
 
-from page_analyzer.repository import UrlRepository
+from page_analyzer.repository import UrlRepository, get_db, close_db
 from page_analyzer.validator import validate
 
 load_dotenv()
 
 DATABASE_URL = os.getenv('DATABASE_URL')
-conn = psycopg.connect(DATABASE_URL)
-conn.autocommit = True
-repo = UrlRepository(conn)
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.teardown_appcontext(close_db)
 
 
 @app.get('/')
@@ -28,6 +24,7 @@ def index():
 
 @app.get('/urls')
 def get_urls():
+    repo = UrlRepository(get_db(DATABASE_URL))
     urls = repo.get_content()
     return render_template(
         'urls/urls.html',
@@ -42,6 +39,7 @@ def url_post():
     if errors:
         flash('Некорректный URL', 'danger')
         return redirect('/')
+    repo = UrlRepository(get_db(DATABASE_URL))
     url_id = repo.save(url)
     flash('Страница успешно добавлена', 'success')
     return redirect(url_for('show_url', id=url_id))
@@ -49,6 +47,7 @@ def url_post():
 
 @app.route('/urls/<id>')
 def show_url(id):
+    repo = UrlRepository(get_db(DATABASE_URL))
     url = repo.find(id)
     if url is None:
         return render_template(
