@@ -16,26 +16,90 @@ def close_db(exception=None):
         db.close()
 
 
-class UrlRepository:
+class DataBase:
     def __init__(self, conn):
         self.conn = conn
 
-    def get_content(self):
-        with self.conn.cursor(row_factory=dict_row) as cur:
-            cur.execute("SELECT * FROM urls ORDER BY id DESC")
-            return [dict(row) for row in cur]
+    def save_url(self, url):
+        try:
+            with self.conn.cursor() as cur:
+                cur.execute(
+                    "INSERT INTO urls (name) VALUES (%s) RETURNING id",
+                    (url,),
+                )
+                id = cur.fetchone()[0]
+                return id
+        except Exception:
+            raise
 
-    def save(self, url):
-        with self.conn.cursor() as cur:
-            cur.execute(
-                "INSERT INTO urls (name) VALUES (%s) RETURNING id",
-                (url,),
-            )
-            id = cur.fetchone()[0]
-            return id
+    def find_url(self, id):
+        try:
+            with self.conn.cursor(row_factory=dict_row) as cur:
+                cur.execute("SELECT * FROM urls WHERE id = %s", (id,))
+                row = cur.fetchone()
+                return dict(row) if row else None
+        except Exception:
+            raise
 
-    def find(self, id):
-        with self.conn.cursor(row_factory=dict_row) as cur:
-            cur.execute("SELECT * FROM urls WHERE id = %s", (id,))
-            row = cur.fetchone()
-            return dict(row) if row else None
+    def get_url(self, url):
+        try:
+            with self.conn.cursor(row_factory=dict_row) as cur:
+                cur.execute("SELECT * FROM urls WHERE name = %s", (url,))
+                return cur.fetchone()
+        except Exception:
+            raise
+
+    def get_urls(self):
+        try:
+            with self.conn.cursor(row_factory=dict_row) as cur:
+                cur.execute("SELECT * FROM urls ORDER BY id DESC")
+                return [dict(row) for row in cur]
+        except Exception:
+            raise
+
+    def save_check(self, url_id, status_code, h1, title, description):
+        try:
+            with self.conn.cursor() as cur:
+                cur.execute(
+                    """
+                    INSERT INTO url_checks (
+                        url_id,
+                        status_code,
+                        h1,
+                        title,
+                        description
+                    ) VALUES (%s, %s, %s, %s, %s)""",
+                    (url_id, status_code, h1, title, description),
+                )
+        except Exception:
+            raise
+
+    def get_checks(self, url_id):
+        try:
+            with self.conn.cursor(row_factory=dict_row) as cur:
+                cur.execute(
+                    "SELECT * FROM url_checks WHERE url_id = %s ORDER BY id DESC ",
+                    (url_id,)
+                )
+                return [dict(row) for row in cur]
+        except Exception:
+            raise
+
+    def get_last_check(self, url_id):
+        try:
+            with self.conn.cursor(row_factory=dict_row) as cur:
+                cur.execute(
+                    """
+                    SELECT 
+                        created_at, 
+                        status_code
+                    FROM url_checks
+                    WHERE url_id = %s
+                    ORDER BY created_at DESC
+                    LIMIT 1
+                    """,
+                    (url_id,)
+                )
+                return cur.fetchone()
+        except Exception as e:
+            raise
