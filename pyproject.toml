@@ -5,10 +5,12 @@ description = "Page Analyzer - this is a full-fledged application based on the F
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "beautifulsoup4>=4.13.4",
     "flask>=3.1.0",
     "gunicorn>=23.0.0",
     "psycopg>=3.2.7",
     "python-dotenv>=1.1.0",
+    "requests>=2.32.3",
     "validators>=0.35.0",
 ]
 
