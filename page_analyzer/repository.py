@@ -101,5 +101,5 @@ class DataBase:
                     (url_id,)
                 )
                 return cur.fetchone()
-        except Exception as e:
+        except Exception:
             raise
