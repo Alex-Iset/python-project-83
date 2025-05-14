@@ -54,7 +54,7 @@ def url_post():
     errors = validate(url)
     if errors:
         flash(errors, 'danger')
-        return redirect('/')
+        return redirect('/', code=422)
     repo = DataBase(get_db(DATABASE_URL))
     norm_url = canonicalize_url(url).rstrip('/')
     exist_url = repo.get_url(norm_url)

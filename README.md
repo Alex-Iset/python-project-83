@@ -7,12 +7,12 @@
 </a>
 
 
-### Hexlet tests and linter status:
+## Hexlet tests and linter status:
 [![Actions Status](https://github.com/Alex-Iset/python-project-83/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Alex-Iset/python-project-83/actions)
 [![my-check](https://github.com/Alex-Iset/python-project-83/actions/workflows/my-check.yml/badge.svg)](https://github.com/Alex-Iset/python-project-83/actions/workflows/my-check.yml)
 
 
-### Tech Stack:
+## Tech Stack:
 ![Static Badge](https://img.shields.io/badge/flask-3.1.0-F?logo=flask&color=black)
 ![Static Badge](https://img.shields.io/badge/gunicorn-23.0.0-F?logo=gunicorn&color=%23329f5a)
 ![Static Badge](https://img.shields.io/badge/beautifulsoup4-4.13.4-F?logo=beautifulsoup&color=yellow)
