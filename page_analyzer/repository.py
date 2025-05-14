@@ -1,11 +1,11 @@
-import psycopg
+import psycopg2
 from flask import g
-from psycopg.rows import dict_row
+from psycopg2.extras import RealDictCursor
 
 
 def get_db(db_url):
     if 'db' not in g:
-        g.db = psycopg.connect(db_url)
+        g.db = psycopg2.connect(db_url)
         g.db.autocommit = True
     return g.db
 
@@ -34,7 +34,7 @@ class DataBase:
 
     def find_url(self, id):
         try:
-            with self.conn.cursor(row_factory=dict_row) as cur:
+            with self.conn.cursor(cursor_factory=RealDictCursor) as cur:
                 cur.execute("SELECT * FROM urls WHERE id = %s", (id,))
                 row = cur.fetchone()
                 return dict(row) if row else None
@@ -43,7 +43,7 @@ class DataBase:
 
     def get_url(self, url):
         try:
-            with self.conn.cursor(row_factory=dict_row) as cur:
+            with self.conn.cursor(cursor_factory=RealDictCursor) as cur:
                 cur.execute("SELECT * FROM urls WHERE name = %s", (url,))
                 return cur.fetchone()
         except Exception:
@@ -51,7 +51,7 @@ class DataBase:
 
     def get_urls(self):
         try:
-            with self.conn.cursor(row_factory=dict_row) as cur:
+            with self.conn.cursor(cursor_factory=RealDictCursor) as cur:
                 cur.execute("SELECT * FROM urls ORDER BY id DESC")
                 return [dict(row) for row in cur]
         except Exception:
@@ -76,7 +76,7 @@ class DataBase:
 
     def get_checks(self, url_id):
         try:
-            with self.conn.cursor(row_factory=dict_row) as cur:
+            with self.conn.cursor(cursor_factory=RealDictCursor) as cur:
                 cur.execute(
                     "SELECT * FROM url_checks WHERE url_id = %s ORDER BY id DESC ",
                     (url_id,)
@@ -87,7 +87,7 @@ class DataBase:
 
     def get_last_check(self, url_id):
         try:
-            with self.conn.cursor(row_factory=dict_row) as cur:
+            with self.conn.cursor(cursor_factory=RealDictCursor) as cur:
                 cur.execute(
                     """
                     SELECT 
