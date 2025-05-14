@@ -16,7 +16,7 @@
 ![Static Badge](https://img.shields.io/badge/flask-3.1.0-F?logo=flask&color=black)
 ![Static Badge](https://img.shields.io/badge/gunicorn-23.0.0-F?logo=gunicorn&color=%23329f5a)
 ![Static Badge](https://img.shields.io/badge/beautifulsoup4-4.13.4-F?logo=beautifulsoup&color=yellow)
-![Static Badge](https://img.shields.io/badge/psycopg-3.2.7-F?logo=psycopg&color=yellow)
+![Static Badge](https://img.shields.io/badge/psycopg2-2.9.10-F?logo=psycopg&color=yellow)
 ![Static Badge](https://img.shields.io/badge/pythondotenv-1.1.0-F?color=yellow)
 ![Static Badge](https://img.shields.io/badge/requests-2.32.3-F?logo=requests&color=yellow)
 ![Static Badge](https://img.shields.io/badge/validators-0.35.0-F?logo=validators&color=yellow)
