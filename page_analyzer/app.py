@@ -4,6 +4,8 @@ import requests
 
 from bs4 import BeautifulSoup
 
+from w3lib.url import canonicalize_url
+
 from dotenv import load_dotenv
 
 from flask import Flask, render_template, request, flash, redirect, url_for, abort
@@ -30,9 +32,7 @@ def handle_exception(error):
 
 @app.get('/')
 def index():
-    return render_template(
-        'urls/index.html'
-    )
+    return render_template('urls/index.html')
 
 
 @app.get('/urls')
@@ -54,18 +54,19 @@ def url_post():
     errors = validate(url)
     if errors:
         flash(errors, 'danger')
-        return redirect('/')
+        return render_template('urls/index.html'), 422
     repo = DataBase(get_db(DATABASE_URL))
-    exist_url = repo.get_url(url)
+    norm_url = canonicalize_url(url).rstrip('/')
+    exist_url = repo.get_url(norm_url)
     if exist_url:
         flash('Страница уже существует', 'info')
         return redirect(url_for('show_url', id=exist_url['id']))
-    url_id = repo.save_url(url)
+    url_id = repo.save_url(norm_url)
     flash('Страница успешно добавлена', 'success')
     return redirect(url_for('show_url', id=url_id))
 
 
-@app.get('/urls/<id>')
+@app.get('/urls/<int:id>')
 def show_url(id):
     repo = DataBase(get_db(DATABASE_URL))
     url = repo.find_url(id)
@@ -79,7 +80,7 @@ def show_url(id):
     )
 
 
-@app.post('/urls/<id>/checks')
+@app.post('/urls/<int:id>/checks')
 def check_url(id):
     repo = DataBase(get_db(DATABASE_URL))
     url = repo.find_url(id)
