@@ -68,7 +68,8 @@ class DataBase:
                         h1,
                         title,
                         description
-                    ) VALUES (%s, %s, %s, %s, %s)""",
+                    ) VALUES (%s, %s, %s, %s, %s)
+                    """,
                     (url_id, status_code, h1, title, description),
                 )
         except Exception:
@@ -78,7 +79,12 @@ class DataBase:
         try:
             with self.conn.cursor(cursor_factory=RealDictCursor) as cur:
                 cur.execute(
-                    "SELECT * FROM url_checks WHERE url_id = %s ORDER BY id DESC",
+                    """
+                    SELECT *
+                    FROM url_checks
+                    WHERE url_id = %s
+                    ORDER BY id DESC
+                    """,
                     (url_id,)
                 )
                 return [dict(row) for row in cur]
