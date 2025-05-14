@@ -4,14 +4,13 @@ import requests
 
 from bs4 import BeautifulSoup
 
-from w3lib.url import canonicalize_url
-
 from dotenv import load_dotenv
 
 from flask import Flask, render_template, request, flash, redirect, url_for, abort
 
 from page_analyzer.repository import DataBase, get_db, close_db
 from page_analyzer.validator import validate
+from page_analyzer.utils import normalize_url
 
 load_dotenv()
 
@@ -56,7 +55,7 @@ def url_post():
         flash(errors, 'danger')
         return render_template('urls/index.html'), 422
     repo = DataBase(get_db(DATABASE_URL))
-    norm_url = canonicalize_url(url).rstrip('/')
+    norm_url = normalize_url(url)
     exist_url = repo.get_url(norm_url)
     if exist_url:
         flash('Страница уже существует', 'info')
