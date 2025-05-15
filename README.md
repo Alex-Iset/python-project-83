@@ -10,6 +10,7 @@
 ## Hexlet tests and linter status:
 [![Actions Status](https://github.com/Alex-Iset/python-project-83/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Alex-Iset/python-project-83/actions)
 [![my-check](https://github.com/Alex-Iset/python-project-83/actions/workflows/my-check.yml/badge.svg)](https://github.com/Alex-Iset/python-project-83/actions/workflows/my-check.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=alex-iset_python-project-83&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=alex-iset_python-project-83)
 
 
 ## Tech Stack:
