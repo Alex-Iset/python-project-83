@@ -21,3 +21,11 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=alex-iset_python-project-83
+            -Dsonar.organization=alex-iset
+            -Dsonar.projectName=Page Analyzer
+            -Dsonar.projectVersion=0.1.0
+            -Dsonar.sources=./page_analyzer
+            -Dsonar.sourceEncoding=UTF-8
