@@ -29,3 +29,4 @@ jobs:
             -Dsonar.projectVersion=0.1.0
             -Dsonar.sources=./page_analyzer
             -Dsonar.sourceEncoding=UTF-8
+            -Dsonar.branch.name=main
