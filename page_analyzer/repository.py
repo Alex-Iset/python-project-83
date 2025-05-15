@@ -29,25 +29,21 @@ class DataBase:
             url_id = cur.fetchone()[0]
             return url_id
 
-
     def find_url(self, id):
         with self.conn.cursor(cursor_factory=RealDictCursor) as cur:
             cur.execute("SELECT * FROM urls WHERE id = %s", (id,))
             row = cur.fetchone()
             return dict(row) if row else None
 
-
     def get_url(self, url):
         with self.conn.cursor(cursor_factory=RealDictCursor) as cur:
             cur.execute("SELECT * FROM urls WHERE name = %s", (url,))
             return cur.fetchone()
 
-
     def get_urls(self):
         with self.conn.cursor(cursor_factory=RealDictCursor) as cur:
             cur.execute("SELECT * FROM urls ORDER BY id DESC")
             return [dict(row) for row in cur]
-
 
     def save_check(self, url_id, status_code, h1, title, description):
         with self.conn.cursor() as cur:
@@ -64,7 +60,6 @@ class DataBase:
                 (url_id, status_code, h1, title, description),
             )
 
-
     def get_checks(self, url_id):
         with self.conn.cursor(cursor_factory=RealDictCursor) as cur:
             cur.execute(
@@ -77,7 +72,6 @@ class DataBase:
                 (url_id,)
             )
             return [dict(row) for row in cur]
-
 
     def get_last_check(self, url_id):
         with self.conn.cursor(cursor_factory=RealDictCursor) as cur:
